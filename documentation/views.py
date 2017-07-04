@@ -1,11 +1,12 @@
-# Create your views here.
 from django.http import HttpResponse, Http404
+from . import app_settings
 from django.views.static import serve
-from documentation import app_settings
 import mimetypes
 
 
 def documentation(request, path):
+    if path is '':
+        path = 'index.html'
     if not app_settings.DOCUMENTATION_ACCESS_FUNCTION(request.user):
         raise Http404
     if not app_settings.DOCUMENTATION_XSENDFILE:
@@ -13,6 +14,7 @@ def documentation(request, path):
                 request,
                 path,
                 app_settings.DOCUMENTATION_HTML_ROOT)
+
     mimetype, encoding = mimetypes.guess_type(path)
     response = HttpResponse(mimetype=mimetype)
 
