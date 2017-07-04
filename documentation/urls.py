@@ -1,10 +1,8 @@
-from django.conf.urls import patterns, url
+from django.conf.urls import url
 from django.contrib import admin
+from . import views
 admin.autodiscover()
 
-urlpatterns = patterns(
-    'documentation.views',
-
-    url(r'^$', 'documentation', 'index.html'),
-    url(r'^(?P<path>.*)$', 'documentation', name="path"),
-)
+urlpatterns = [
+    url(r'^(?P<path>.*)$', views.documentation),
+]
